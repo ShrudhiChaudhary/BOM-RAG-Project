@@ -33,3 +33,16 @@ This project provides an intelligent assistant to query and retrieve loan inform
 ```bash
 git clone https://github.com/ShrudhiChaudhary/BOM-RAG-Project.git
 cd bom-loan-rag
+``` 
+### 2. Create and activate a virtual environment
+```bash
+python -m venv venv
+```
+# Linux/Mac
+```bash
+source venv/bin/activate
+```
+# Windows
+```bash
+venv\Scripts\activate
+```
