@@ -74,19 +74,26 @@ python scrape_bom.py --urls urls.txt --out_dir ../data/raw
 ```bash
 bom-loan-rag/
 │
-├── data/
-│ ├── raw/ # Raw scraped .txt files
-│ ├── processed/ # Cleaned/processed documents
-│ └── embeddings/ # Vector embeddings
+├── data_raw/ # Raw scraped .txt files from BOM website
+├── data_processed/ # Cleaned and preprocessed text
 │
-├── scripts/
-│ ├── scrape_bom.py # Web scraping script
-│ └── preprocess.py # Optional text cleaning/preprocessing
+├── rag/ # RAG pipeline related scripts
+│ ├── build_vector_store.py # Code to create embeddings / vector store
+│ └── local_rag.py # Code to query local RAG pipeline
 │
-├── models/
-│ └── phi3/ # LLM-related files if needed
+├── scraper/ # Web scraping scripts and URLs
+│ ├── scraper_bom.py # Scraper script
+│ └── urls.txt # List of BOM loan page URLs
 │
-├── notebooks/ # Jupyter notebooks (optional)
-├── requirements.txt
-└── README.md
+├── vector_store/ # Folder to store serialized vector embeddings
+│
+├── knowledge_base/ # Preprocessed knowledge base
+│ ├── chunker.py # Script to chunk documents
+│ ├── chunks.json # JSON file containing text chunks
+│ └── loan_data.txt # Consolidated loan data text file
+│
+├── generate_files.py # Script to generate files for processing
+├── main.py # Main script to run the RAG system
+├── requirements.txt # Python dependencies
+└── README.md # This README file
 ```
