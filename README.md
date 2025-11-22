@@ -38,11 +38,55 @@ cd bom-loan-rag
 ```bash
 python -m venv venv
 ```
-# Linux/Mac
+#### Linux/Mac
 ```bash
 source venv/bin/activate
 ```
-# Windows
+#### Windows
 ```bash
 venv\Scripts\activate
+```
+### 3. Install dependencies
+```bash
+pip install -r requirements.txt
+```
+#### Key libraries used:
+
+##### requests, BeautifulSoup4, selenium, webdriver-manager — for web scraping
+
+##### sentence-transformers — for embeddings (all-MiniLM-L6-v2)
+
+##### ollama — to run phi3 LLM locally
+
+##### tqdm — progress bars for scraping and processing
+
+### 4. Prepare Urls
+
+Create a urls.txt file containing one Bank of Maharashtra loan page URL per line.
+
+### 5. Scapre Data
+```bash
+python scrape_bom.py --urls urls.txt --out_dir ../data/raw
+# Optional: add --selenium for JS-heavy pages
+```
+
+## Folder Structure
+```bash
+bom-loan-rag/
+│
+├── data/
+│ ├── raw/ # Raw scraped .txt files
+│ ├── processed/ # Cleaned/processed documents
+│ └── embeddings/ # Vector embeddings
+│
+├── scripts/
+│ ├── scrape_bom.py # Web scraping script
+│ └── preprocess.py # Optional text cleaning/preprocessing
+│
+├── models/
+│ └── phi3/ # LLM-related files if needed
+│
+├── notebooks/ # Jupyter notebooks (optional)
+├── requirements.txt
+└── README.md
 ```
