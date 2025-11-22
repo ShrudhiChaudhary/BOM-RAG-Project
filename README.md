@@ -10,12 +10,6 @@ A Retrieval-Augmented Generation (RAG) system designed to extract, process, and 
 3. [Folder Structure](#folder-structure)
 4. [How to Run](#how-to-run)
 5. [Architecture & Design Decisions](#architecture--design-decisions)
-6. [Embedding Strategy Explained](#embedding-strategy-explained)
-7. [Model Selection Justification](#model-selection-justification)
-8. [Challenges & How You Solved Them](#challenges--how-you-solved-them)
-9. [Improvements & Future Work](#improvements--future-work)
-10. [Screenshots](#screenshots)
-11. [Video Walkthrough Instructions](#video-walkthrough-instructions)
 
 ---
 
@@ -137,3 +131,42 @@ ollama pull phi3  # fastest
 ```bash
 python main.py
 ```
+
+## Architecture & Design Decisions
+
+### Architectural Decisions
+The system was designed as a **RAG (Retrieval-Augmented Generation) pipeline** to allow semantic search over loan information. The architecture separates concerns into scraping, preprocessing, embedding, vector retrieval, and LLM query stages, making it modular, maintainable, and scalable.
+
+### Libraries
+- **Scraping:** `requests`, `BeautifulSoup4`, `selenium`, `webdriver-manager`  
+  *Reason:* `requests` for static pages; Selenium for JS-heavy pages ensures complete coverage of dynamic content.  
+- **Data Processing:** Standard Python libraries (`os`, `json`) and `tqdm` for progress visualization.  
+- **RAG Pipeline:** `sentence-transformers` for embedding generation, `numpy` for vector operations, and custom scripts for retrieval and query handling.
+
+### Data Strategy
+- **Chunking:** Text documents are split into overlapping chunks (~500 tokens each).  
+  *Reason:* Preserves context in each chunk while keeping them small enough for efficient embedding and retrieval.  
+- **Storage:** Chunks are stored in `knowledge_base/chunks.json` and vector embeddings are saved in `vector_store/` for fast similarity search.
+
+### Model Selection
+- **Embedding Model:** `all-MiniLM-L6-v2` from Sentence Transformers  
+  *Reason:* Provides a good trade-off between accuracy, speed, and resource efficiency for semantic search.  
+- **LLM:** `phi3` running locally via Ollama  
+  *Reason:* Local deployment ensures privacy, low latency, and full control over the model without API limits.
+
+### AI Tools Used
+- **phi3 (LLM):** For generating context-aware responses from retrieved chunks.  
+- **Sentence Transformers (MiniLM):** For vector embeddings to enable semantic retrieval.  
+- **Selenium:** Handles dynamic web pages during scraping.  
+
+### Challenges Faced
+- **Dynamic Pages:** Some BOM pages were JS-heavy, handled using Selenium fallback.  
+- **Messy Data Formats:** HTML contained scripts, headers, footers, and ads, requiring custom cleaning logic.  
+- **Large Documents:** Needed chunking to avoid memory issues and maintain context for embeddings.  
+
+### Potential Improvements
+- Automate incremental scraping for new loan pages.  
+- Switch to a vector database like FAISS or Pinecone for scalable retrieval.  
+- Enable multi-turn conversation for better user interaction.  
+- Expand the system to support multiple banks for a unified loan information assistant.  
+
