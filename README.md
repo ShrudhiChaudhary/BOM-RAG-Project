@@ -97,3 +97,43 @@ bom-loan-rag/
 ├── requirements.txt # Python dependencies
 └── README.md # This README file
 ```
+## How to Run
+
+Follow these steps to run the BOM Loan Information RAG system:
+
+---
+
+### 1. Activate the virtual environment
+### 2. Scrape raw data
+```bash
+python scraper/scrape_bom.py --urls scraper/urls.txt --out_dir data/raw --selenium
+```
+This will save raw .txt files into data_raw/.
+
+### 3. Process documents and generate embeddings
+```bash
+python data/clean/clean_data.py --raw_dir data/raw --out_file knowledge_base/loan_data.txt
+python generate_files.py
+```
+### 4. Chunk the data
+```bash
+python knowledge_base/chunker.py --input knowledge_base/loan_data.txt --out_json knowledge_base/chunks.json
+```
+### 5. Build vector store (FAISS)
+```bash
+python rag/build_vector_store.py --chunks knowledge_base/chunks.json --out_dir vector_store
+```
+
+### 6. Installing Free LLM
+#### 1. Install Ollama
+👉 https://ollama.com/download 
+
+#### 2. Download a GOOD free model
+Download a GOOD free model
+```bash
+ollama pull phi3  # fastest
+```
+### 7. Run main.py
+```bash
+python main.py
+```
