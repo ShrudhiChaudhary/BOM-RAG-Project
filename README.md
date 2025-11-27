@@ -123,7 +123,6 @@ python rag/build_vector_store.py --chunks knowledge_base/chunks.json --out_dir v
 👉 https://ollama.com/download 
 
 #### 2. Download a GOOD free model
-Download a GOOD free model
 ```bash
 ollama pull phi3  # fastest
 ```
